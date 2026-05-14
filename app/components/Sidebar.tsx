@@ -17,6 +17,7 @@ import {
   BookOpen,
   ChevronDown,
   ChevronRight,
+  X,
 } from "lucide-react";
 
 type NavItem = {
@@ -51,7 +52,12 @@ const navItems: NavItem[] = [
   { label: "Rules", icon: <BookOpen size={16} /> },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const [openMenus, setOpenMenus] = useState<string[]>(["RDPs"]);
 
   const toggle = (label: string) => {
@@ -61,16 +67,38 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-46.25 min-h-screen bg-white border-r border-gray-200 flex flex-col shrink-0">
+    <aside
+      className={`
+        w-46.25 bg-white border-r border-gray-200 flex flex-col shrink-0
+        fixed md:static inset-y-0 left-0 z-20 h-full md:h-auto
+        transition-transform duration-200 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+      `}
+    >
+      {/* Mobile close button */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 md:hidden">
+        <span className="text-sm font-semibold text-gray-700">Menu</span>
+        <button
+          onClick={onClose}
+          className="text-gray-400 hover:text-gray-600 transition-colors"
+          aria-label="Close menu"
+        >
+          <X size={18} />
+        </button>
+      </div>
+
       <nav className="flex-1 py-3 overflow-y-auto">
         {navItems.map((item) => {
-          const isOpen = openMenus.includes(item.label);
+          const isMenuOpen = openMenus.includes(item.label);
           const hasChildren = item.children && item.children.length > 0;
 
           return (
             <div key={item.label}>
               <button
-                onClick={() => hasChildren && toggle(item.label)}
+                onClick={() => {
+                  if (hasChildren) toggle(item.label);
+                  else alert("hello");
+                }}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors
                   ${item.active ? "text-blue-600 bg-blue-50 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
               >
@@ -80,16 +108,17 @@ export default function Sidebar() {
                 <span className="flex-1">{item.label}</span>
                 {hasChildren && (
                   <span className="text-gray-400">
-                    {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                    {isMenuOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                   </span>
                 )}
               </button>
 
-              {hasChildren && isOpen && (
+              {hasChildren && isMenuOpen && (
                 <div className="bg-gray-50">
                   {item.children!.map((child) => (
                     <button
                       key={child}
+                      onClick={() => alert("hello")}
                       className="w-full text-left text-sm text-gray-500 hover:text-gray-700 pl-11 pr-4 py-2 hover:bg-gray-100 transition-colors"
                     >
                       {child}

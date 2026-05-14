@@ -6,7 +6,7 @@ export default function BitcoinDepositPanel() {
   const [amount, setAmount] = useState("");
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden w-full max-w-xs">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden w-full md:max-w-xs">
       {/* Header */}
       <div className="bg-linear-to-r from-blue-700 to-blue-600 px-5 py-4 flex items-center gap-3">
         <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center shrink-0">

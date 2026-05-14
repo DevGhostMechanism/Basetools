@@ -1,24 +1,36 @@
+"use client";
+
+import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import BitcoinDepositPanel from "../components/BitcoinDepositPanel";
 import BitcoinPaymentPanel from "../components/BitcoinPaymentPanel";
 import Header from "../components/Header";
 
 export default function HomePage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Header />
+      <Header onMenuClick={() => setSidebarOpen((prev) => !prev)} />
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+        {/* Mobile backdrop */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/40 z-10 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto p-6">
-          <div className="flex gap-5 items-start max-w-5xl">
+        <main className="flex-1 overflow-y-auto p-3 md:p-6">
+          <div className="flex flex-col md:flex-row gap-5 items-start md:max-w-5xl">
             <BitcoinDepositPanel />
             <BitcoinPaymentPanel />
           </div>
 
-          {/* Footer */}
           <footer className="mt-8 text-center text-xs text-gray-400 space-y-1">
             <p>
               © 2026 <span className="font-semibold text-gray-500">BaseTools</span> - Premium
