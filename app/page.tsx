@@ -89,7 +89,7 @@ export default function LoginPage() {
       return;
     }
     setError("");
-    router.push("/homepage");
+    router.push("/home");
   }
 
   return (
@@ -171,7 +171,7 @@ export default function LoginPage() {
               alt=""
               width={360}
               height={75}
-              style={{ filter: "invert(1)" }}
+              style={{ filter: "invert(1)", height: "auto" }}
             />
           </div>
           {/* BASETOOLS badge */}
@@ -210,7 +210,7 @@ export default function LoginPage() {
                 width={200}
                 height={42}
                 priority
-                style={{ filter: "invert(1)" }}
+                style={{ filter: "invert(1)", height: "auto" }}
               />
             </div>
 

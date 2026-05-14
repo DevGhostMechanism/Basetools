@@ -15,7 +15,9 @@ export default function BitcoinDepositPanel() {
           </svg>
         </div>
         <div>
-          <h2 className="text-white font-semibold text-sm">Bitcoin Automatic Payment</h2>
+          <h2 className="text-white font-semibold text-sm">
+            Bitcoin Automatic Payment
+          </h2>
           <p className="text-blue-200 text-xs">we accept bitcoin</p>
         </div>
       </div>
@@ -31,17 +33,19 @@ export default function BitcoinDepositPanel() {
           </div>
         </div>
         <p className="text-gray-500 text-xs mb-1">BTC Rate</p>
-        <p className="text-orange-400 font-bold text-2xl mb-3">79,537 $</p>
+        <p className="text-yellow-400 font-bold text-2xl mb-3">80,537 $</p>
 
         <p className="text-gray-500 text-xs mb-1 leading-relaxed">
           Write your amount in the below box and press Deposit button
         </p>
-        <p className="text-orange-500 text-xs font-medium mb-4">*One confirmation required</p>
+        <p className="text-amber-500 text-xs font-medium mb-4">
+          *One confirmation required
+        </p>
 
         {/* Input */}
         <div className="flex gap-2 mb-3">
           <div className="flex-1 flex items-center border border-gray-200 rounded px-3 gap-2 bg-gray-50">
-            <div className="w-5 h-5 bg-orange-400 rounded-full flex items-center justify-center shrink-0">
+            <div className="w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center shrink-0">
               <span className="text-white text-[9px] font-bold">₿</span>
             </div>
             <input
@@ -52,12 +56,14 @@ export default function BitcoinDepositPanel() {
               className="flex-1 bg-transparent text-sm outline-none py-2 text-gray-700"
             />
           </div>
-          <button className="bg-orange-400 hover:bg-orange-500 text-white text-sm font-medium px-4 py-2 rounded transition-colors">
+          <button className="bg-amber-500 hover:bg-yellow-500 text-white text-sm font-medium px-4 py-2 rounded transition-colors">
             Deposit
           </button>
         </div>
 
-        <p className="text-gray-400 text-xs">please note that the Minimum Amount : 20$</p>
+        <p className="text-gray-400 text-xs">
+          please note that the Minimum Amount : 20$
+        </p>
       </div>
     </div>
   );

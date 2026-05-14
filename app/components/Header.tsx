@@ -1,13 +1,29 @@
 "use client";
 
-import { Bell, ShoppingCart, Globe, Star, Menu } from "lucide-react";
+import { Bell, ShoppingCart, Globe, Star, Menu, Settings, Ticket, LogOut, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-5 shrink-0 z-10">
       {/* Left: hamburger (mobile) + logo */}
@@ -23,8 +39,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Image
             src="/Black-logo.svg"
             alt="BaseTools Logo"
-            height={40}
             width={140}
+            height={40}
+            style={{ height: "auto" }}
           />
         </a>
       </div>
@@ -67,9 +84,75 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Star size={18} fill="currentColor" />
         </button>
 
-        <button className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold hover:bg-blue-600 transition-colors">
-          U
-        </button>
+        {/* User avatar with dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setDropdownOpen((v) => !v)}
+            className="flex items-center gap-1 group"
+            aria-haspopup="true"
+            aria-expanded={dropdownOpen}
+          >
+            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold group-hover:bg-blue-600 transition-colors ring-2 ring-transparent group-hover:ring-blue-200">
+              U
+            </span>
+            <ChevronDown
+              size={13}
+              className={`text-gray-400 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {dropdownOpen && (
+            <div className="absolute right-0 top-[calc(100%+8px)] w-48 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+              {/* User info strip */}
+              <div className="px-4 py-3 bg-linear-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">
+                    U
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-gray-800 truncate">User</p>
+                    <p className="text-[10px] text-gray-400 truncate">Manage your account</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Menu items */}
+              <div className="py-1">
+                <button
+                  onClick={() => setDropdownOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors group/item"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center group-hover/item:bg-blue-100 transition-colors">
+                    <Settings size={14} className="text-gray-500 group-hover/item:text-blue-600 transition-colors" />
+                  </span>
+                  Settings
+                </button>
+
+                <button
+                  onClick={() => setDropdownOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors group/item"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center group-hover/item:bg-purple-100 transition-colors">
+                    <Ticket size={14} className="text-gray-500 group-hover/item:text-purple-600 transition-colors" />
+                  </span>
+                  Open Ticket
+                </button>
+
+                <div className="mx-3 my-1 border-t border-gray-100" />
+
+                <button
+                  onClick={() => { setDropdownOpen(false); router.push("/"); }}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors group/item"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center group-hover/item:bg-red-100 transition-colors">
+                    <LogOut size={14} className="text-red-400 group-hover/item:text-red-600 transition-colors" />
+                  </span>
+                  Logout
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

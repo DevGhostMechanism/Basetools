@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Copy, AlertCircle } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react";
+import Image from "next/image";
 
-const BTC_ADDRESS = "bc1qmvv6m7muvr4ghyzvtpqt8r69c2vqlzuh8t92wd";
+const BTC_ADDRESS = "bc1qzu77y6g0xwgvrsv7jq9gznyflr5ej23r4w74n8";
 const ORDER_ID = "5936581768211767399";
 
 export default function BitcoinPaymentPanel() {
@@ -12,7 +13,7 @@ export default function BitcoinPaymentPanel() {
   const [copiedAddress, setCopiedAddress] = useState(false);
 
   const copyToClipboard = (text: string, type: "amount" | "address") => {
-    navigator.clipboard.writeText(text).then(() => {
+    const done = () => {
       if (type === "amount") {
         setCopiedAmount(true);
         setTimeout(() => setCopiedAmount(false), 2000);
@@ -20,15 +21,30 @@ export default function BitcoinPaymentPanel() {
         setCopiedAddress(true);
         setTimeout(() => setCopiedAddress(false), 2000);
       }
-    });
+    };
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(done);
+    } else {
+      // Fallback for HTTP (non-secure) contexts
+      const el = document.createElement("textarea");
+      el.value = text;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      done();
+    }
   };
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 min-w-0">
       {/* Top Banner */}
       <div className="bg-blue-600 px-5 py-3 text-white text-sm leading-relaxed">
-        We require one confirmation to reflect your balance, your money will be added Automatically
-        once your transaction gets 1 confirmation.{" "}
+        We require one confirmation to reflect your balance, your money will be
+        added Automatically once your transaction gets 1 confirmation.{" "}
         <a href="#" className="text-red-300 font-medium hover:underline">
           Click here
         </a>{" "}
@@ -37,18 +53,21 @@ export default function BitcoinPaymentPanel() {
 
       {/* Body */}
       <div className="px-6 py-5">
-        <h2 className="text-center text-gray-800 font-semibold text-lg mb-5">Bitcoin Payment</h2>
+        <h2 className="text-center text-gray-800 font-semibold text-lg mb-5">
+          Bitcoin Payment
+        </h2>
 
         {/* QR Code */}
         <div className="flex justify-center mb-6">
           <div className="p-2 border border-gray-200 rounded-lg">
-            <QRCodeCanvas value={BTC_ADDRESS} size={140} level="M" marginSize={0} />
+            <Image src="/qr-code.jpeg" alt="QR Code" width={140} height={140} />
           </div>
         </div>
 
         {/* "Send Exactly" */}
         <p className="text-sm text-gray-600 mb-2">
-          Dear <span className="text-gray-400 italic">Inactive</span> Send Exactly
+          Dear <span className="text-gray-400 italic">Inactive</span> Send
+          Exactly
         </p>
 
         <div className="flex items-center gap-2 mb-4">
@@ -62,7 +81,11 @@ export default function BitcoinPaymentPanel() {
             className="w-9 h-9 bg-blue-500 hover:bg-blue-600 text-white rounded flex items-center justify-center transition-colors shrink-0"
             title="Copy amount"
           >
-            {copiedAmount ? <span className="text-xs">✓</span> : <Copy size={14} />}
+            {copiedAmount ? (
+              <span className="text-xs">✓</span>
+            ) : (
+              <Copy size={14} />
+            )}
           </button>
         </div>
 
@@ -79,21 +102,26 @@ export default function BitcoinPaymentPanel() {
             className="w-9 h-9 bg-blue-500 hover:bg-blue-600 text-white rounded flex items-center justify-center transition-colors shrink-0"
             title="Copy address"
           >
-            {copiedAddress ? <span className="text-xs">✓</span> : <Copy size={14} />}
+            {copiedAddress ? (
+              <span className="text-xs">✓</span>
+            ) : (
+              <Copy size={14} />
+            )}
           </button>
         </div>
 
         <p className="text-sm text-gray-500 mb-4">
-          After sending to the above address This page will refresh automatically upon receiving
-          bitcoins.
+          After sending to the above address This page will refresh
+          automatically upon receiving bitcoins.
         </p>
 
         {/* Warning */}
         <div className="flex gap-2 items-start mb-4">
           <AlertCircle size={16} className="text-red-500 mt-0.5 shrink-0" />
           <p className="text-sm text-gray-600">
-            When you get the success message that we have received your payment, you can close this
-            page. It will be automatically added when it gets one confirmation.
+            When you get the success message that we have received your payment,
+            you can close this page. It will be automatically added when it gets
+            one confirmation.
           </p>
         </div>
 
@@ -121,9 +149,9 @@ export default function BitcoinPaymentPanel() {
 
         {/* Auto-recheck info */}
         <div className="bg-blue-600 rounded-lg px-4 py-3 text-center text-sm text-white leading-relaxed">
-          If the payment is not reflected, there is no need to worry. Our system will automatically
-          recheck the payment status within a maximum of 30 minutes. Once the payment is confirmed,
-          it will be added accordingly.
+          If the payment is not reflected, there is no need to worry. Our system
+          will automatically recheck the payment status within a maximum of 30
+          minutes. Once the payment is confirmed, it will be added accordingly.
         </div>
       </div>
     </div>

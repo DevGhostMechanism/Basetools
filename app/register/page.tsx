@@ -149,7 +149,7 @@ export default function RegisterPage() {
               alt=""
               width={360}
               height={75}
-              style={{ filter: "invert(1)" }}
+              style={{ filter: "invert(1)", height: "auto" }}
             />
           </div>
           {/* BASETOOLS badge (top-left) */}
@@ -185,7 +185,7 @@ export default function RegisterPage() {
               alt="BaseTools"
               width={200}
               height={42}
-              style={{ filter: "invert(1)" }}
+              style={{ filter: "invert(1)", height: "auto" }}
             />
           </div>
 
