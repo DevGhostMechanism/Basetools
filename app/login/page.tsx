@@ -3,11 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { User, Lock } from "lucide-react";
 
-function HCaptchaWidget() {
-  const [checked, setChecked] = useState(false);
-
+function HCaptchaWidget({ checked, onChange }: { checked: boolean; onChange: () => void }) {
   return (
     <div
       className="flex items-center justify-between px-4 py-3 cursor-pointer select-none"
@@ -16,7 +15,7 @@ function HCaptchaWidget() {
         border: "1px solid #d0d0d0",
         borderRadius: "4px",
       }}
-      onClick={() => setChecked((v) => !v)}
+      onClick={onChange}
     >
       {/* Checkbox + label */}
       <div className="flex items-center gap-3">
@@ -51,6 +50,29 @@ function HCaptchaWidget() {
 }
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [humanChecked, setHumanChecked] = useState(false);
+  const [error, setError] = useState("");
+
+  function handleLogin() {
+    if (!username.trim()) {
+      setError("Please enter your username.");
+      return;
+    }
+    if (!password.trim()) {
+      setError("Please enter your password.");
+      return;
+    }
+    if (!humanChecked) {
+      setError("Please confirm you are human.");
+      return;
+    }
+    setError("");
+    router.push("/homepage");
+  }
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center p-0 lg:py-10 lg:px-6"
@@ -179,6 +201,8 @@ export default function LoginPage() {
                   placeholder="Enter username here"
                   className="flex-1 py-3 px-4 text-sm text-white placeholder-gray-500 outline-none"
                   style={{ backgroundColor: "#091224" }}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
 
@@ -195,11 +219,18 @@ export default function LoginPage() {
                   placeholder="Enter password here"
                   className="flex-1 py-3 px-4 text-sm text-white placeholder-gray-500 outline-none"
                   style={{ backgroundColor: "#091224" }}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
               {/* hCaptcha */}
-              <HCaptchaWidget />
+              <HCaptchaWidget checked={humanChecked} onChange={() => setHumanChecked((v) => !v)} />
+
+              {/* Error message */}
+              {error && (
+                <p className="text-red-500 text-sm text-center">{error}</p>
+              )}
 
               {/* Forgot password */}
               <p className="text-center text-sm py-1" style={{ color: "#6b7280" }}>
@@ -212,6 +243,7 @@ export default function LoginPage() {
               <button
                 className="w-full py-3 font-black text-white tracking-widest text-base transition-opacity hover:opacity-90"
                 style={{ backgroundColor: "#1a6ef5" }}
+                onClick={handleLogin}
               >
                 LOGIN
               </button>
