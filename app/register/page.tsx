@@ -3,7 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { User, Mail } from "lucide-react";
+
+const CAPTCHA_ANSWER = "ju7FvD";
 
 function CaptchaImage() {
   return (
@@ -49,7 +52,12 @@ function CaptchaImage() {
         }}
       >
         ju7F
-        <span style={{ display: "inline-block", transform: "skewX(14deg) translateY(2px)" }}>
+        <span
+          style={{
+            display: "inline-block",
+            transform: "skewX(14deg) translateY(2px)",
+          }}
+        >
           v
         </span>
         D
@@ -59,11 +67,43 @@ function CaptchaImage() {
 }
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
 
+  function handleRegister() {
+    if (!username.trim()) {
+      setError("Please enter your username.");
+      return;
+    }
+    if (!email.trim()) {
+      setError("Please enter your email.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!password.trim()) {
+      setError("Please generate a password first.");
+      return;
+    }
+
+    if (captchaInput !== CAPTCHA_ANSWER) {
+      setError("Incorrect CAPTCHA. Please try again.");
+      return;
+    }
+    setError("");
+    router.push("/login");
+  }
+
   function generatePassword() {
-    const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%&";
+    const chars =
+      "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%&";
     let pwd = "";
     for (let i = 0; i < 14; i++) {
       pwd += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -85,7 +125,6 @@ export default function RegisterPage() {
     >
       {/* Main card */}
       <div className="w-full lg:max-w-5xl flex flex-col lg:flex-row lg:rounded-xl overflow-hidden shadow-2xl">
-
         {/* ── Illustration panel — top on mobile, left on desktop ── */}
         <div
           className="lg:w-[62%] relative flex items-end"
@@ -114,7 +153,8 @@ export default function RegisterPage() {
               right: "-60px",
               width: "340px",
               height: "340px",
-              background: "radial-gradient(circle, rgba(30,120,255,0.3) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(30,120,255,0.3) 0%, transparent 70%)",
             }}
           />
           {/* Glow — bottom left */}
@@ -125,7 +165,8 @@ export default function RegisterPage() {
               left: "-40px",
               width: "260px",
               height: "260px",
-              background: "radial-gradient(circle, rgba(0,80,200,0.28) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(0,80,200,0.28) 0%, transparent 70%)",
             }}
           />
           {/* Orange vertical accent line */}
@@ -189,7 +230,10 @@ export default function RegisterPage() {
             />
           </div>
 
-          <h1 className="text-xl lg:text-2xl font-bold mb-1" style={{ color: "#FFB300" }}>
+          <h1
+            className="text-xl lg:text-2xl font-bold mb-1"
+            style={{ color: "#FFB300" }}
+          >
             Register to BaseTools
           </h1>
           <p className="font-bold mb-5 text-sm" style={{ color: "#3b82f6" }}>
@@ -208,6 +252,8 @@ export default function RegisterPage() {
               <input
                 type="text"
                 placeholder="Enter username here"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="flex-1 py-3 px-4 text-sm text-white placeholder-gray-500 outline-none"
                 style={{ backgroundColor: "#091224" }}
               />
@@ -224,6 +270,8 @@ export default function RegisterPage() {
               <input
                 type="email"
                 placeholder="Enter email address here"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 py-3 px-4 text-sm text-white placeholder-gray-500 outline-none"
                 style={{ backgroundColor: "#091224" }}
               />
@@ -265,18 +313,50 @@ export default function RegisterPage() {
               />
             </div>
 
+            {/* I am not a robot checkbox */}
+            {/* <label
+              className="flex items-center gap-3 px-3 py-3 cursor-pointer select-none"
+              style={{ backgroundColor: "#091224" }}
+            >
+              <input
+                type="checkbox"
+                checked={humanChecked}
+                onChange={(e) => setHumanChecked(e.target.checked)}
+                className="w-4 h-4 accent-blue-500 cursor-pointer"
+              />
+              <span className="text-sm" style={{ color: "#9ca3af" }}>
+                I am not a robot
+              </span>
+            </label> */}
+
+            {/* Error message */}
+            {error && <p className="text-sm text-red-400 px-1">{error}</p>}
+
+            <p className="text-xs text-gray-400 mt-1 mb-2 px-1">
+              Save your login details in a secure location, as you will need it
+              to login immediately after registration.
+            </p>
+
             {/* Register button */}
             <button
               className="w-full py-3 mt-1 font-black text-white tracking-widest text-base transition-opacity hover:opacity-90"
               style={{ backgroundColor: "#1a6ef5" }}
+              onClick={handleRegister}
             >
               REGISTER
             </button>
 
             {/* Sign in link */}
-            <p className="text-center text-sm pt-1" style={{ color: "#6b7280" }}>
+            <p
+              className="text-center text-sm pt-1"
+              style={{ color: "#6b7280" }}
+            >
               Already have an account?{" "}
-              <Link href="/login" className="hover:underline" style={{ color: "#3b82f6" }}>
+              <Link
+                href="/login"
+                className="hover:underline"
+                style={{ color: "#3b82f6" }}
+              >
                 Sign In
               </Link>
             </p>
@@ -293,7 +373,8 @@ export default function RegisterPage() {
           128-bit SSL encryption
         </p>
         <p className="text-xs" style={{ color: "#6b7280" }}>
-          If the Domain is different from this, please do not login and stay away from that page!
+          If the Domain is different from this, please do not login and stay
+          away from that page!
         </p>
       </div>
     </div>
