@@ -13,7 +13,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Alternative Website For BaseTools.sk",
+  title: "BaseTools.sk Alternative Website",
   description:
     "BaseTools Premium Digital Services - The biggest underground store in the world selling all kind of tools, we guarantee the best rates and prices.",
 };
