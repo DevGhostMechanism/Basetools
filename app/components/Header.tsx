@@ -1,6 +1,16 @@
 "use client";
 
-import { Bell, ShoppingCart, Globe, Star, Menu, Settings, Ticket, LogOut, ChevronDown } from "lucide-react";
+import {
+  Bell,
+  ShoppingCart,
+  Globe,
+  Star,
+  Menu,
+  Settings,
+  Ticket,
+  LogOut,
+  ChevronDown,
+} from "lucide-react";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -16,7 +26,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     }
@@ -65,22 +78,34 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <span>0.00$</span>
         </button>
 
-        <button className="relative text-gray-500 hover:text-gray-700 transition-colors">
+        <button
+          className="relative text-gray-500 hover:text-gray-700 transition-colors"
+          onClick={() => alert("Please deposit money to use service!")}
+        >
           <Bell size={18} />
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full text-white text-[9px] flex items-center justify-center">
             0
           </span>
         </button>
 
-        <button className="hidden md:block text-gray-500 hover:text-gray-700 transition-colors">
+        <button
+          className="hidden md:block text-gray-500 hover:text-gray-700 transition-colors"
+          onClick={() => alert("Please deposit money to use service!")}
+        >
           <ShoppingCart size={18} />
         </button>
 
-        <button className="hidden md:block text-gray-500 hover:text-gray-700 transition-colors">
+        <button
+          className="hidden md:block text-gray-500 hover:text-gray-700 transition-colors"
+          onClick={() => alert("Please deposit money to use service!")}
+        >
           <Globe size={18} />
         </button>
 
-        <button className="hidden md:block text-yellow-400 hover:text-yellow-500 transition-colors">
+        <button
+          className="hidden md:block text-yellow-400 hover:text-yellow-500 transition-colors"
+          onClick={() => alert("Please deposit money to use service!")}
+        >
           <Star size={18} fill="currentColor" />
         </button>
 
@@ -110,8 +135,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     U
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-gray-800 truncate">User</p>
-                    <p className="text-[10px] text-gray-400 truncate">Manage your account</p>
+                    <p className="text-xs font-semibold text-gray-800 truncate">
+                      User
+                    </p>
+                    <p className="text-[10px] text-gray-400 truncate">
+                      Manage your account
+                    </p>
                   </div>
                 </div>
               </div>
@@ -123,7 +152,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors group/item"
                 >
                   <span className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center group-hover/item:bg-blue-100 transition-colors">
-                    <Settings size={14} className="text-gray-500 group-hover/item:text-blue-600 transition-colors" />
+                    <Settings
+                      size={14}
+                      className="text-gray-500 group-hover/item:text-blue-600 transition-colors"
+                    />
                   </span>
                   Settings
                 </button>
@@ -133,19 +165,22 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors group/item"
                 >
                   <span className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center group-hover/item:bg-purple-100 transition-colors">
-                    <Ticket size={14} className="text-gray-500 group-hover/item:text-purple-600 transition-colors" />
+                    <Ticket
+                      size={14}
+                      className="text-gray-500 group-hover/item:text-purple-600 transition-colors"
+                    />
                   </span>
                   Open Ticket
                 </button>
 
                 <div className="mx-3 my-1 border-t border-gray-100" />
 
-                <button
-                  onClick={() => alert("Please deposit money to use service!")}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors group/item"
-                >
+                <button onClick={() => router.push("/")} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors group/item">
                   <span className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center group-hover/item:bg-red-100 transition-colors">
-                    <LogOut size={14} className="text-red-400 group-hover/item:text-red-600 transition-colors" />
+                    <LogOut
+                      size={14}
+                      className="text-red-400 group-hover/item:text-red-600 transition-colors"
+                    />
                   </span>
                   Logout
                 </button>

@@ -35,7 +35,7 @@ export default function BitcoinDepositPanel() {
           </div>
         </div>
         <p className="text-gray-500 text-xs mb-1">BTC Rate</p>
-        <p className="text-amber-500 font-bold text-2xl mb-3">80,537 $</p>
+        <p className="text-amber-500 font-bold text-2xl mb-3">80,537$</p>
 
         <p className="text-gray-500 text-xs mb-1 leading-relaxed">
           Write your amount in the below box and press Deposit button

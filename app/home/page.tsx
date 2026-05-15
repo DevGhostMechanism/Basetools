@@ -233,8 +233,11 @@ export default function HomePage() {
                 <div className="bg-red-600 rounded-xl p-5 text-white">
                   <h3 className="font-bold text-base mb-1">ATTENTION!</h3>
                   <p className="text-blue-100 text-sm leading-relaxed">
-                    Dear User, your account is currrently inactive. Please{" "}
-                    <a href="/deposit" className="text-yellow-300 hover:text-yellow-200 underline">
+                    Dear user, your account is currrently inactive. Please{" "}
+                    <a
+                      href="/deposit"
+                      className="text-yellow-300 hover:text-yellow-200 underline"
+                    >
                       top up
                     </a>{" "}
                     your account to activate it.

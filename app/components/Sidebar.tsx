@@ -144,7 +144,9 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                     <button
                       key={child}
                       onClick={() =>
-                        alert("Please deposit money to use service!")
+                        child === "Deposit"
+                          ? router.push("/deposit")
+                          : alert("Please deposit money to use service!")
                       }
                       className="w-full text-left text-sm text-gray-500 hover:text-gray-700 pl-11 pr-4 py-2 hover:bg-gray-100 transition-colors"
                     >
