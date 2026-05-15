@@ -1,34 +1,29 @@
-// app/sitemap.ts
 import { MetadataRoute } from 'next'
+import { posts } from './blog/posts'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://basetools.website'
 
-  // 1. Define your static routes
-  const staticRoutes = [
+  const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily' as const,
+      changeFrequency: 'weekly' as const,
       priority: 1,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
     },
+    ...blogRoutes,
   ]
-
-  // 2. Fetch your dynamic routes (Optional)
-  // Replace this with your actual database or CMS API call
-  // const data = await fetch('https://basetools.website').then(res => res.json())
-  // const dynamicRoutes = data.map((item: any) => ({
-  //   url: `${baseUrl}/tools/${item.slug}`,
-  //   lastModified: new Date(item.updatedAt),
-  //   changeFrequency: 'weekly' as const,
-  //   priority: 0.6,
-  // }))
-
-  return [...staticRoutes] // If using dynamic routes, return: [...staticRoutes, ...dynamicRoutes]
 }

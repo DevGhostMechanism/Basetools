@@ -13,9 +13,32 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "BaseTools.sk Alternative Website",
+  title: {
+    default: "BaseTools — Official Digital Tools Marketplace",
+    template: "%s | BaseTools",
+  },
   description:
-    "BaseTools Premium Digital Services - The biggest underground store in the world selling all kind of tools, we guarantee the best rates and prices.",
+    "BaseTools is the official digital tools marketplace and the trusted successor to BaseTools.sk. Buy premium accounts, RDP access, virtual phone numbers, and social media tools from verified sellers.",
+  keywords: [
+    "digital tools marketplace",
+    "buy RDP access",
+    "premium accounts",
+    "virtual phone numbers",
+    "SMS verification",
+    "buy social media accounts",
+    "BaseTools official",
+    "BaseTools.sk alternative",
+  ],
+  metadataBase: new URL("https://basetools.website"),
+  openGraph: {
+    title: "BaseTools — Official Digital Tools Marketplace",
+    description:
+      "The official successor to BaseTools.sk. Buy premium accounts, RDP, virtual phone numbers and more.",
+    url: "https://basetools.website",
+    siteName: "BaseTools",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
