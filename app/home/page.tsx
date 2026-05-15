@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Header from "@/app/components/Header";
 import Sidebar from "@/app/components/Sidebar";
+import { useRouter } from "next/navigation";
 
 /* ─── Feature Cards ─────────────────────────────────────────────────── */
 const featureCards = [
@@ -157,7 +158,7 @@ const latestTools = [
 
 /* ─── Domains ────────────────────────────────────────────────────────── */
 const domains = [
-  { name: "basetools.al", status: "MAIN", dot: "green" },
+  { name: "basetools.website", status: "MAIN", dot: "green" },
   { name: "basetools.se", status: "BACKUP", dot: "green" },
   { name: "basetools.me", status: "MAIN", dot: "green" },
   { name: "basetools.st", status: "BACKUP", dot: "green" },
@@ -173,6 +174,8 @@ const statusStyle: Record<string, string> = {
 /* ─── Page ───────────────────────────────────────────────────────────── */
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -212,6 +215,9 @@ export default function HomePage() {
                         ? "bg-blue-600 text-white hover:bg-blue-700"
                         : "border border-blue-600 text-blue-600 hover:bg-blue-50"
                     }`}
+                    onClick={() =>
+                      alert("Please deposit money to use service!")
+                    }
                   >
                     {card.buttonText}
                   </button>
@@ -224,28 +230,28 @@ export default function HomePage() {
               {/* Left: Security Banner + News */}
               <div className="flex-1 min-w-0 flex flex-col gap-4">
                 {/* Security Issue Banner */}
-                <div className="bg-blue-600 rounded-xl p-5 text-white">
+                <div className="bg-red-600 rounded-xl p-5 text-white">
                   <h3 className="font-bold text-base mb-1">ATTENTION!</h3>
                   <p className="text-blue-100 text-sm leading-relaxed">
                     Dear User, your account is currrently inactive. Please{" "}
-                    <a
-                      href="/deposit"
-                      className="underline text-yellow-300 font-medium"
-                    >
+                    <a href="/deposit" className="text-yellow-300 hover:text-yellow-200 underline">
                       top up
-                    </a>
+                    </a>{" "}
                     your account to activate it.
                   </p>
-                  <button className="mt-4 bg-yellow-400 text-yellow-900 font-semibold px-4 py-1.5 rounded text-sm hover:bg-yellow-300 transition-colors inline-flex items-center gap-1">
+                  <button
+                    className="mt-4 bg-yellow-400 text-yellow-900 font-semibold px-4 py-1.5 rounded text-sm hover:bg-yellow-300 transition-colors inline-flex items-center gap-1"
+                    onClick={() => router.push("/deposit")}
+                  >
                     Continue <ChevronRight size={14} />
                   </button>
                 </div>
 
                 {/* Latest News */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                  <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100 bg-blue-200">
-                    <Bell size={13} className="text-gray-400" />
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                  <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100 bg-blue-500">
+                    <Bell size={13} className="text-white" />
+                    <span className="text-xs font-bold text-white uppercase tracking-wide">
                       Latest News
                     </span>
                   </div>

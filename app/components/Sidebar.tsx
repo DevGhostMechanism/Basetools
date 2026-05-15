@@ -19,6 +19,7 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type NavItem = {
   label: string;
@@ -75,6 +76,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const [openMenus, setOpenMenus] = useState<string[]>(["RDPs"]);
+  const router = useRouter();
 
   const toggle = (label: string) => {
     setOpenMenus((prev) =>
@@ -113,6 +115,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
               <button
                 onClick={() => {
                   if (hasChildren) toggle(item.label);
+                  else if (item.label === "Home") router.push("/home");
                   else alert("Please deposit money to use service!");
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors
@@ -140,7 +143,9 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                   {item.children!.map((child) => (
                     <button
                       key={child}
-                      onClick={() => alert("hello")}
+                      onClick={() =>
+                        alert("Please deposit money to use service!")
+                      }
                       className="w-full text-left text-sm text-gray-500 hover:text-gray-700 pl-11 pr-4 py-2 hover:bg-gray-100 transition-colors"
                     >
                       {child}
@@ -154,7 +159,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       </nav>
 
       <div className="px-4 py-3 border-t border-gray-100 text-xs text-gray-400 space-x-2">
-        <span>© 2015-2024 BaseTools</span>
+        <span>© 2015-2026 BaseTools</span>
         <a href="#" className="text-blue-500 hover:underline">
           Billing History
         </a>

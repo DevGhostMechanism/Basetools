@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Copy, AlertCircle } from "lucide-react";
-import { QRCodeCanvas } from "qrcode.react";
 import Image from "next/image";
 
 const BTC_ADDRESS = "bc1qzu77y6g0xwgvrsv7jq9gznyflr5ej23r4w74n8";
@@ -65,10 +64,10 @@ export default function BitcoinPaymentPanel() {
         </div>
 
         {/* "Send Exactly" */}
-        <p className="text-sm text-gray-600 mb-2">
-          Dear <span className="text-gray-400 italic">Inactive</span> Send
+        {/* <p className="text-sm text-gray-600 mb-2">
+          Dear <span className="text-gray-400 italic">inactive user</span> Send
           Exactly
-        </p>
+        </p> */}
 
         <div className="flex items-center gap-2 mb-4">
           <input

@@ -35,7 +35,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         >
           <Menu size={22} />
         </button>
-        <a href="">
+        <a href="/home">
           <Image
             src="/Black-logo.svg"
             alt="BaseTools Logo"
@@ -119,7 +119,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               {/* Menu items */}
               <div className="py-1">
                 <button
-                  onClick={() => setDropdownOpen(false)}
+                  onClick={() => alert("Please deposit money to use service!")}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors group/item"
                 >
                   <span className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center group-hover/item:bg-blue-100 transition-colors">
@@ -129,7 +129,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 </button>
 
                 <button
-                  onClick={() => setDropdownOpen(false)}
+                  onClick={() => alert("Please deposit money to use service!")}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors group/item"
                 >
                   <span className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center group-hover/item:bg-purple-100 transition-colors">
@@ -141,7 +141,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <div className="mx-3 my-1 border-t border-gray-100" />
 
                 <button
-                  onClick={() => { setDropdownOpen(false); router.push("/"); }}
+                  onClick={() => alert("Please deposit money to use service!")}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors group/item"
                 >
                   <span className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center group-hover/item:bg-red-100 transition-colors">
