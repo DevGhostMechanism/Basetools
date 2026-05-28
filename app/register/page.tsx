@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Mail } from "lucide-react";
+import { User } from "lucide-react";
 
 const CAPTCHA_ANSWER = "ju7FvD";
 
@@ -69,36 +69,40 @@ function CaptchaImage() {
 export default function RegisterPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
 
-  function handleRegister() {
+  async function handleRegister() {
     if (!username.trim()) {
       setError("Please enter your username.");
-      return;
-    }
-    if (!email.trim()) {
-      setError("Please enter your email.");
-      return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      setError("Please enter a valid email address.");
       return;
     }
     if (!password.trim()) {
       setError("Please generate a password first.");
       return;
     }
-
     if (captchaInput !== CAPTCHA_ANSWER) {
       setError("Incorrect CAPTCHA. Please try again.");
       return;
     }
     setError("");
-    router.push("/login");
+
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username.trim(),
+        password,
+      }),
+    });
+
+    if (res.ok) {
+      router.push("/login");
+    } else {
+      const data = await res.json();
+      setError(data.error ?? "Registration failed. Please try again.");
+    }
   }
 
   function generatePassword() {
@@ -259,24 +263,6 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Email */}
-            <div className="flex items-stretch overflow-hidden">
-              <div
-                className="flex items-center justify-center flex-shrink-0"
-                style={{ width: "48px", backgroundColor: "#1a6ef5" }}
-              >
-                <Mail className="w-5 h-5 text-white" />
-              </div>
-              <input
-                type="email"
-                placeholder="Enter email address here"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 py-3 px-4 text-sm text-white placeholder-gray-500 outline-none"
-                style={{ backgroundColor: "#091224" }}
-              />
-            </div>
-
             {/* Generate Password — stacked on mobile, side-by-side on sm+ */}
             <div className="flex flex-col sm:flex-row gap-[5px]">
               <button
@@ -293,8 +279,8 @@ export default function RegisterPage() {
               <input
                 type="text"
                 value={password}
-                readOnly
-                placeholder="Click Generate Password"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter or generate a password"
                 className="flex-1 py-3 px-4 text-sm text-white placeholder-gray-500 outline-none"
                 style={{ backgroundColor: "#091224" }}
               />

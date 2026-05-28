@@ -3,13 +3,42 @@
 import { useState } from "react";
 import { Copy, AlertCircle } from "lucide-react";
 import Image from "next/image";
+import type { CoinType } from "../deposit/page";
 
-const BTC_ADDRESS = "bc1qzu77y6g0xwgvrsv7jq9gznyflr5ej23r4w74n8";
+const COIN_DATA: Record<CoinType, { label: string; address: string; qr: string }> = {
+  BTC: {
+    label: "Bitcoin",
+    address: "bc1qzu77y6g0xwgvrsv7jq9gznyflr5ej23r4w74n8",
+    qr: "/qr-code.jpeg",
+  },
+  ETH: {
+    label: "Ethereum",
+    address: "0x4222CB1B6B6d574c14f2855483B8d80A09f4f0BE",
+    qr: "/ETH.jpeg",
+  },
+  USDT: {
+    label: "Tether (USDT)",
+    address: "0x4222CB1B6B6d574c14f2855483B8d80A09f4f0BE",
+    qr: "/USDT.jpeg",
+  },
+  USDC: {
+    label: "USD Coin (USDC)",
+    address: "0x4222CB1B6B6d574c14f2855483B8d80A09f4f0BE",
+    qr: "/USDC.jpeg",
+  },
+};
+
 const ORDER_ID = "5936581768211767399";
 
-export default function BitcoinPaymentPanel() {
+interface Props {
+  selectedCoin: CoinType;
+}
+
+export default function BitcoinPaymentPanel({ selectedCoin }: Props) {
   const [copiedAmount, setCopiedAmount] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(false);
+
+  const coin = COIN_DATA[selectedCoin];
 
   const copyToClipboard = (text: string, type: "amount" | "address") => {
     const done = () => {
@@ -25,7 +54,6 @@ export default function BitcoinPaymentPanel() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(done);
     } else {
-      // Fallback for HTTP (non-secure) contexts
       const el = document.createElement("textarea");
       el.value = text;
       el.style.position = "fixed";
@@ -52,22 +80,26 @@ export default function BitcoinPaymentPanel() {
 
       {/* Body */}
       <div className="px-6 py-5">
-        <h2 className="text-center text-gray-800 font-semibold text-lg mb-5">
-          Bitcoin Payment
+        <h2 className="text-center text-gray-800 font-semibold text-lg mb-1">
+          {coin.label} Payment
         </h2>
+        <p className="text-center text-gray-400 text-xs mb-5">
+          Send {selectedCoin} to the address below
+        </p>
 
         {/* QR Code */}
         <div className="flex justify-center mb-6">
           <div className="p-2 border border-gray-200 rounded-lg">
-            <Image src="/qr-code.jpeg" alt="QR Code" width={140} height={140} />
+            <Image
+              key={selectedCoin}
+              src={coin.qr}
+              alt={`${coin.label} QR Code`}
+              width={140}
+              height={140}
+              className="object-contain"
+            />
           </div>
         </div>
-
-        {/* "Send Exactly" */}
-        {/* <p className="text-sm text-gray-600 mb-2">
-          Dear <span className="text-gray-400 italic">inactive user</span> Send
-          Exactly
-        </p> */}
 
         <div className="flex items-center gap-2 mb-4">
           <input
@@ -89,15 +121,17 @@ export default function BitcoinPaymentPanel() {
         </div>
 
         {/* Address */}
-        <p className="text-sm text-gray-600 mb-2">To This Address</p>
+        <p className="text-sm text-gray-600 mb-2">
+          To This {coin.label} Address
+        </p>
         <div className="flex items-center gap-2 mb-4">
           <input
             readOnly
-            value={BTC_ADDRESS}
+            value={coin.address}
             className="flex-1 border border-gray-200 rounded px-3 py-2 text-sm bg-gray-50 text-gray-600 outline-none font-mono truncate"
           />
           <button
-            onClick={() => copyToClipboard(BTC_ADDRESS, "address")}
+            onClick={() => copyToClipboard(coin.address, "address")}
             className="w-9 h-9 bg-blue-500 hover:bg-blue-600 text-white rounded flex items-center justify-center transition-colors shrink-0"
             title="Copy address"
           >
@@ -110,8 +144,8 @@ export default function BitcoinPaymentPanel() {
         </div>
 
         <p className="text-sm text-gray-500 mb-4">
-          After sending to the above address This page will refresh
-          automatically upon receiving bitcoins.
+          After sending to the above address this page will refresh
+          automatically upon receiving {selectedCoin}.
         </p>
 
         {/* Warning */}

@@ -54,7 +54,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             alt="BaseTools Logo"
             width={140}
             height={40}
-            style={{ height: "auto" }}
+            style={{ width: "140px", height: "auto" }}
           />
         </a>
       </div>

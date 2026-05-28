@@ -75,7 +75,7 @@ export default function LoginPage() {
   const [humanChecked, setHumanChecked] = useState(false);
   const [error, setError] = useState("");
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!username.trim()) {
       setError("Please enter your username.");
       return;
@@ -89,7 +89,19 @@ export default function LoginPage() {
       return;
     }
     setError("");
-    router.push("/home");
+
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username.trim(), password }),
+    });
+
+    if (res.ok) {
+      router.push("/home");
+    } else {
+      const data = await res.json();
+      setError(data.error ?? "Login failed. Please try again.");
+    }
   }
 
   return (

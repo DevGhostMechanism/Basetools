@@ -6,8 +6,11 @@ import BitcoinDepositPanel from "../components/BitcoinDepositPanel";
 import BitcoinPaymentPanel from "../components/BitcoinPaymentPanel";
 import Header from "../components/Header";
 
+export type CoinType = "BTC" | "ETH" | "USDT" | "USDC";
+
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedCoin, setSelectedCoin] = useState<CoinType>("BTC");
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
@@ -27,8 +30,8 @@ export default function HomePage() {
         {/* Main content */}
         <main className="flex-1 overflow-y-auto p-3 md:p-6">
           <div className="flex flex-col md:flex-row gap-5 items-start md:max-w-5xl">
-            <BitcoinDepositPanel />
-            <BitcoinPaymentPanel />
+            <BitcoinDepositPanel selectedCoin={selectedCoin} onCoinSelect={setSelectedCoin} />
+            <BitcoinPaymentPanel selectedCoin={selectedCoin} />
           </div>
 
           <footer className="mt-8 text-center text-xs text-gray-400 space-y-1">
