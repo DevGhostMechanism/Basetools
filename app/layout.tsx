@@ -17,6 +17,13 @@ export const metadata: Metadata = {
     default: "BaseTools — Official Digital Tools Marketplace",
     template: "%s | BaseTools",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   description:
     "BaseTools is the official digital tools marketplace and the trusted successor to BaseTools.sk. Buy premium accounts, RDP access, virtual phone numbers, and social media tools from verified sellers.",
   keywords: [
