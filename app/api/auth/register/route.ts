@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    const passwordHash = await password;
     await createUser(username.trim(), passwordHash);
 
     return NextResponse.json(

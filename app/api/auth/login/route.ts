@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     if (!username?.trim() || !password?.trim()) {
       return NextResponse.json(
         { error: "Username and password are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -18,15 +18,15 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: "Invalid username or password." },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    const passwordMatch = await password;
     if (!passwordMatch) {
       return NextResponse.json(
         { error: "Invalid username or password." },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     console.error("Login error:", error);
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

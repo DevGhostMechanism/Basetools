@@ -21,31 +21,39 @@ import { useRouter } from "next/navigation";
 const featureCards = [
   {
     icon: <Target size={42} className="text-red-500" />,
+    iconBg: "bg-red-50",
     title: "Explore",
     description: "Discover new tools and accounts",
     buttonText: "Browse",
-    variant: "primary" as const,
+    btnClass: "border border-blue-600 text-blue-600 hover:bg-blue-50",
+    route: "/explore",
   },
   {
     icon: <Gem size={42} className="text-blue-500" />,
+    iconBg: "bg-blue-50",
     title: "Premium Tools",
     description: "Access exclusive premium tools",
     buttonText: "View All",
-    variant: "outline" as const,
+    btnClass: "border border-blue-600 text-blue-600 hover:bg-blue-50",
+    route: "/tools/accounts",
   },
   {
-    icon: <Lock size={42} className="text-yellow-600" />,
+    icon: <Lock size={42} className="text-green-600" />,
+    iconBg: "bg-green-50",
     title: "Security",
     description: "Secure your account with 2FA",
     buttonText: "Enable 2FA",
-    variant: "primary" as const,
+    btnClass: "border border-green-600 text-green-600 hover:bg-green-50",
+    route: null,
   },
   {
-    icon: <MessageCircle size={42} className="text-gray-400" />,
+    icon: <MessageCircle size={42} className="text-blue-400" />,
+    iconBg: "bg-blue-50",
     title: "Support",
     description: "Get help from our team",
     buttonText: "Open Ticket",
-    variant: "outline" as const,
+    btnClass: "border border-blue-600 text-blue-600 hover:bg-blue-50",
+    route: null,
   },
 ];
 
@@ -56,25 +64,21 @@ const newsItems = [
     title: "New Replacement Feature Now Available",
     date: "Hello dear users, 02/05/2026",
     body: (
-      <div className="space-y-1.5 text-sm text-gray-600 mt-2">
+      <div className="space-y-2 text-sm text-gray-600 mt-2">
         <p>
           <strong>We have added a new feature called Replacement.</strong>
         </p>
-        <br />
         <p>
           Once you purchase an account, it will appear in the Account Details
           section. From there, you can request a replacement if needed.
         </p>
-        <br />
         <p>
           The seller may take up to 30 minutes to provide a replacement account.
         </p>
-        <br />
         <p>
           If the seller refuses to replace the account or tool, you will receive
           an immediate refund.
         </p>
-        <br />
         <p className="pt-1">Thank you for using our service.</p>
       </div>
     ),
@@ -84,18 +88,16 @@ const newsItems = [
     title: "Account Login Guidelines",
     date: null,
     body: (
-      <div className="space-y-1.5 text-sm text-gray-600 mt-2">
+      <div className="space-y-2 text-sm text-gray-600 mt-2">
         <p>Dear Buyers,</p>
         <p>
           To ensure successful login on accounts, kindly follow these
           guidelines:
         </p>
-        <br />
         <p>
           <strong>Avoid 2FA Authentication:</strong> Do not click on the
           captcha, as this will prompt a 2FA authentication.
         </p>
-        <br />
         <p>
           <strong>Using Cookies:</strong> If an account has cookies, please
           install the **Cookie Editor** extension for Chrome&amp;Firefox. You
@@ -105,7 +107,6 @@ const newsItems = [
           </a>
           .
         </p>
-        <br />
         <p>
           <strong>Tutorial:</strong> For a step-by-step guide on how to use the
           extension, you can watch this{" "}
@@ -123,7 +124,7 @@ const newsItems = [
     title: "Crucial Update ❗❗",
     date: null,
     body: (
-      <div className="space-y-1.5 text-sm text-gray-600 mt-2">
+      <div className="space-y-2 text-sm text-gray-600 mt-2">
         <p>
           We are announcing a very crucial update to you our dear clients, we
           will be monitoring and analysing purchases and who is changing
@@ -131,14 +132,12 @@ const newsItems = [
           invalid/blocked, their account will be deleted totally from our
           database and they won&apos;t get back their balance.
         </p>
-        <br />
         <p>
           Another thing that comes in play from us is that we will be disabling
           the register, that means at one point there will be only the existing
           users and there won&apos;t be a chance of you getting another chance
           in changing passwords or damage our sellers.
         </p>
-        <br />
         <p className="pt-1">Best Regards,</p>
         <p>Board Staff of Basetools ✅</p>
       </div>
@@ -148,21 +147,18 @@ const newsItems = [
 
 /* ─── Latest Tools ───────────────────────────────────────────────────── */
 const latestTools = [
-  { count: 3, name: "Seeking", type: "PAID", section: "Accounts" },
-  { count: 500, name: "OurTime", type: "Unpaid", section: "Accounts" },
-  { count: 496, name: "OurTime", type: "Unpaid", section: "Accounts" },
-  { count: 483, name: "Match", type: "Unpaid", section: "Accounts" },
-  { count: 492, name: "Match", type: "Unpaid", section: "Accounts" },
-  { count: 1, name: "Match", type: "PAID", section: "Accounts" },
+  { count: 320, name: "OurTime(Unpaid)", section: "Accounts" },
+  { count: 341, name: "Match(Unpaid)", section: "Accounts" },
+  { count: 1, name: "Adultfriendfinder(PAID)", section: "Accounts" },
+  { count: 1, name: "Seeking(Paid)", section: "Accounts" },
+  { count: 8, name: "OurTime(Paid)", section: "Accounts" },
 ];
 
 /* ─── Domains ────────────────────────────────────────────────────────── */
 const domains = [
   { name: "basetools.website", status: "MAIN", dot: "green" },
-  { name: "basetools.se", status: "BACKUP", dot: "green" },
-  { name: "basetools.me", status: "MAIN", dot: "green" },
-  { name: "basetools.st", status: "BACKUP", dot: "green" },
-  { name: "basetools.sk", status: "OFFLINE", dot: "red" },
+  { name: "basetools.al", status: "MAIN", dot: "green" },
+  { name: "basetools.me", status: "BACKUP", dot: "green" },
 ];
 
 const statusStyle: Record<string, string> = {
@@ -174,7 +170,6 @@ const statusStyle: Record<string, string> = {
 /* ─── Page ───────────────────────────────────────────────────────────── */
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const router = useRouter();
 
   return (
@@ -202,7 +197,9 @@ export default function HomePage() {
                   key={card.title}
                   className="bg-white rounded-xl p-5 flex flex-col items-center text-center shadow-sm border border-gray-100"
                 >
-                  <div className="mb-3">{card.icon}</div>
+                  <div className={`${card.iconBg} rounded-2xl p-3 mb-3`}>
+                    {card.icon}
+                  </div>
                   <h3 className="font-semibold text-gray-800 mb-1 text-sm">
                     {card.title}
                   </h3>
@@ -210,13 +207,11 @@ export default function HomePage() {
                     {card.description}
                   </p>
                   <button
-                    className={`px-6 py-1.5 rounded text-sm font-medium transition-colors ${
-                      card.variant === "primary"
-                        ? "bg-blue-600 text-white hover:bg-blue-700"
-                        : "border border-blue-600 text-blue-600 hover:bg-blue-50"
-                    }`}
+                    className={`px-6 py-1.5 rounded text-sm font-medium transition-colors ${card.btnClass}`}
                     onClick={() =>
-                      alert("Please deposit money to use service!")
+                      card.route
+                        ? router.push(card.route)
+                        : alert("Please deposit money to use service!")
                     }
                   >
                     {card.buttonText}
@@ -230,23 +225,28 @@ export default function HomePage() {
               {/* Left: Security Banner + News */}
               <div className="flex-1 min-w-0 flex flex-col gap-4">
                 {/* Security Issue Banner */}
-                <div className="bg-red-600 rounded-xl p-5 text-white">
-                  <h3 className="font-bold text-base mb-1">ATTENTION!</h3>
-                  <p className="text-blue-100 text-sm leading-relaxed">
-                    Dear user, your account is currrently inactive. Please{" "}
-                    <a
-                      href="/deposit"
-                      className="text-yellow-300 hover:text-yellow-200 underline"
-                    >
-                      top up
-                    </a>{" "}
-                    your account to activate it.
-                  </p>
+                <div
+                  className="rounded-xl p-5 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #2563eb 100%)",
+                  }}
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-lg">🔒</span>
+                      <h3 className="font-bold text-base">Attention!</h3>
+                    </div>
+                    <p className="text-blue-100 text-sm leading-relaxed">
+                      Dear user, your account is currently inactive. please you
+                      have to top up your account to use our full services.
+                    </p>
+                  </div>
                   <button
-                    className="mt-4 bg-yellow-400 text-yellow-900 font-semibold px-4 py-1.5 rounded text-sm hover:bg-yellow-300 transition-colors inline-flex items-center gap-1"
+                    className="shrink-0 bg-yellow-400 text-yellow-900 font-semibold px-4 py-1.5 rounded text-sm hover:bg-yellow-300 transition-colors inline-flex items-center gap-1 whitespace-nowrap"
                     onClick={() => router.push("/deposit")}
                   >
-                    Continue <ChevronRight size={14} />
+                    Top up <ChevronRight size={14} />
                   </button>
                 </div>
 
@@ -290,7 +290,6 @@ export default function HomePage() {
                     You can join our official channel in Telegram for updates
                   </p>
                   <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2.5 px-4 flex items-center justify-center gap-2 text-sm font-semibold transition-colors">
-                    {/* Telegram SVG icon */}
                     <svg
                       viewBox="0 0 24 24"
                       className="w-4 h-4 fill-white shrink-0"
@@ -321,7 +320,7 @@ export default function HomePage() {
                         </span>{" "}
                         items of{" "}
                         <span className="font-semibold text-blue-500">
-                          {tool.name}({tool.type})
+                          {tool.name}
                         </span>{" "}
                         in The{" "}
                         <span className="font-semibold text-blue-500">

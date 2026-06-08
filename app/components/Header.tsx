@@ -80,7 +80,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
         <button
           className="relative text-gray-500 hover:text-gray-700 transition-colors"
-          onClick={() => alert("Please deposit money to use service!")}
+          onClick={() => router.push("/discover")}
         >
           <Bell size={18} />
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full text-white text-[9px] flex items-center justify-center">

@@ -5,7 +5,10 @@ import { Copy, AlertCircle } from "lucide-react";
 import Image from "next/image";
 import type { CoinType } from "../deposit/page";
 
-const COIN_DATA: Record<CoinType, { label: string; address: string; qr: string }> = {
+const COIN_DATA: Record<
+  CoinType,
+  { label: string; address: string; qr: string }
+> = {
   BTC: {
     label: "Bitcoin",
     address: "bc1qzu77y6g0xwgvrsv7jq9gznyflr5ej23r4w74n8",
@@ -17,7 +20,7 @@ const COIN_DATA: Record<CoinType, { label: string; address: string; qr: string }
     qr: "/ETH.jpeg",
   },
   USDT: {
-    label: "Tether (USDT)",
+    label: "Tether (USDT)ERC20",
     address: "0x4222CB1B6B6d574c14f2855483B8d80A09f4f0BE",
     qr: "/USDT.jpeg",
   },

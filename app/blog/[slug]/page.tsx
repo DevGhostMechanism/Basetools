@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import Script from 'next/script'
 import { posts, getPost, type ContentBlock } from '../posts'
+
+const siteUrl = 'https://basetools.website'
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }))
@@ -11,9 +14,34 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const post = getPost(slug)
   if (!post) return {}
+  const url = `${siteUrl}/blog/${slug}`
   return {
-    title: `${post.title} — BaseTools Blog`,
+    title: post.title,
     description: post.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url,
+      siteName: 'BaseTools',
+      type: 'article',
+      publishedTime: post.date,
+      authors: ['BaseTools'],
+      images: [
+        {
+          url: `${siteUrl}/welcome-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: [`${siteUrl}/welcome-image.jpg`],
+    },
   }
 }
 
@@ -135,6 +163,35 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     Community: '#db2777',
   }
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'BaseTools', url: siteUrl },
+    publisher: {
+      '@type': 'Organization',
+      name: 'BaseTools',
+      url: siteUrl,
+      logo: { '@type': 'ImageObject', url: `${siteUrl}/Black-logo.svg` },
+    },
+    url: `${siteUrl}/blog/${slug}`,
+    image: `${siteUrl}/welcome-image.jpg`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/blog/${slug}` },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `${siteUrl}/blog/${slug}` },
+    ],
+  }
+
   return (
     <div
       style={{
@@ -144,6 +201,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         backgroundSize: '28px 28px',
       }}
     >
+      <Script
+        id={`schema-article-${slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([articleSchema, breadcrumbSchema]) }}
+      />
+
       {/* Nav */}
       <nav
         style={{

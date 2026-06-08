@@ -26,6 +26,7 @@ type NavItem = {
   icon: React.ReactNode;
   children?: string[];
   active?: boolean;
+  badge?: string;
 };
 
 const navItems: NavItem[] = [
@@ -36,13 +37,18 @@ const navItems: NavItem[] = [
   {
     label: "Tools",
     icon: <Wrench size={16} />,
-    children: ["All Tools", "My Tools"],
+    children: ["Accounts", "My Tools"],
+  },
+  {
+    label: "Servers",
+    icon: <Monitor size={16} />,
+    children: ["VPS & RDP", "My Servers"],
+    badge: "NEW",
   },
   {
     label: "RDPs",
     icon: <Monitor size={16} />,
     children: ["RDPs Marketplace", "Purchased RDPs"],
-    active: true,
   },
   {
     label: "SMS Codes",
@@ -72,10 +78,15 @@ const navItems: NavItem[] = [
 interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
+  activeItem?: string;
 }
 
-export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
-  const [openMenus, setOpenMenus] = useState<string[]>(["RDPs"]);
+export default function Sidebar({
+  isOpen = false,
+  onClose,
+  activeItem,
+}: SidebarProps) {
+  const [openMenus, setOpenMenus] = useState<string[]>([]);
   const router = useRouter();
 
   const toggle = (label: string) => {
@@ -109,6 +120,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         {navItems.map((item) => {
           const isMenuOpen = openMenus.includes(item.label);
           const hasChildren = item.children && item.children.length > 0;
+          const isActive = activeItem === item.label || item.active;
 
           return (
             <div key={item.label}>
@@ -116,17 +128,22 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                 onClick={() => {
                   if (hasChildren) toggle(item.label);
                   else if (item.label === "Home") router.push("/home");
+                  else if (item.label === "Explore") router.push("/explore");
+                  else if (item.label === "Discover") router.push("/discover");
                   else alert("Please deposit money to use service!");
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors
-                  ${item.active ? "text-blue-600 bg-blue-50 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
+                  ${isActive ? "text-blue-600 bg-blue-50 font-medium" : "text-gray-600 hover:bg-gray-50"}`}
               >
-                <span
-                  className={item.active ? "text-blue-500" : "text-gray-400"}
-                >
+                <span className={isActive ? "text-blue-500" : "text-gray-400"}>
                   {item.icon}
                 </span>
                 <span className="flex-1">{item.label}</span>
+                {item.badge && (
+                  <span className="text-[9px] font-bold bg-green-500 text-white px-1.5 py-0.5 rounded">
+                    {item.badge}
+                  </span>
+                )}
                 {hasChildren && (
                   <span className="text-gray-400">
                     {isMenuOpen ? (
@@ -146,7 +163,13 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                       onClick={() =>
                         child === "Deposit"
                           ? router.push("/deposit")
-                          : alert("Please deposit money to use service!")
+                          : child === "RDPs Marketplace"
+                            ? router.push("/rdps")
+                            : child === "VPS & RDP"
+                              ? router.push("/servers/vps-rdp")
+                              : child === "Accounts"
+                                ? router.push("/tools/accounts")
+                                : alert("Please deposit money to use service!")
                       }
                       className="w-full text-left text-sm text-gray-500 hover:text-gray-700 pl-11 pr-4 py-2 hover:bg-gray-100 transition-colors"
                     >
